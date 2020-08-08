@@ -11,23 +11,38 @@ namespace jaytwo.DisappearingFiles
     {
         private bool _disposed = false;
 
-        internal DisappearingDirectory(DirectoryInfo directoryInfo)
+        public DisappearingDirectory(string path)
+            : this(new DirectoryInfo(path)) // passing through DirectoryInfo to ensure a clean path name;
         {
-            // passing through DirectoryInfo to ensure a clean path name
+        }
+
+        public DisappearingDirectory(DirectoryInfo directoryInfo)
+        {
             Path = directoryInfo.FullName;
         }
 
         public string Path { get; }
 
-        public static DisappearingDirectory Create() => CreateIn(System.IO.Path.GetTempPath());
+        public static DisappearingDirectory CreateInTempPath()
+            => CreateInTempPath(null);
 
-        public static DisappearingDirectory CreateIn(DirectoryInfo directoryInfo) => CreateIn(directoryInfo.FullName);
+        public static DisappearingDirectory CreateInTempPath(string prefix)
+            => CreateIn(System.IO.Path.GetTempPath(), prefix);
+
+        public static DisappearingDirectory CreateIn(DirectoryInfo directoryInfo)
+            => CreateIn(directoryInfo.FullName);
+
+        public static DisappearingDirectory CreateIn(DirectoryInfo directoryInfo, string prefix)
+            => CreateIn(directoryInfo.FullName, prefix);
 
         public static DisappearingDirectory CreateIn(string basePath)
+            => CreateIn(basePath, null);
+
+        public static DisappearingDirectory CreateIn(string basePath, string prefix)
         {
             var directoryInfo = DirectoryGenerator.CreateNewDirectory(() =>
             {
-                var randomName = NameGenerator.GenerateRandomString();
+                var randomName = NameGenerator.GenerateRandomPath(basePath, prefix, null);
                 return System.IO.Path.Combine(basePath, randomName);
             });
 

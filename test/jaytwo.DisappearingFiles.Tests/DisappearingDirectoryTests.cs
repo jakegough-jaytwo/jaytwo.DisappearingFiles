@@ -12,12 +12,25 @@ namespace jaytwo.DisappearingFiles.Tests
     public class DisappearingDirectoryTests
     {
         [Fact]
+        public void CreateInTempPath_creates_folder_in_temp_path()
+        {
+            // arrange
+
+            // act
+            using (var workspace = DisappearingDirectory.CreateInTempPath())
+            {
+                // assert
+                Assert.StartsWith(Path.GetTempPath(), workspace.Path);
+            }
+        }
+
+        [Fact]
         public void Directory_exists_after_DisappearingDirectory_is_created()
         {
             // arrange
 
             // act
-            using (var workspace = DisappearingDirectory.Create())
+            using (var workspace = DisappearingDirectory.CreateInTempPath())
             {
                 // assert
                 Assert.True(Directory.Exists(workspace.Path));
@@ -28,7 +41,7 @@ namespace jaytwo.DisappearingFiles.Tests
         public void Directory_does_not_exist_after_DisappearingDirectory_is_disposed()
         {
             // arrange
-            var workspace = DisappearingDirectory.Create();
+            var workspace = DisappearingDirectory.CreateInTempPath();
 
             // act
             workspace.Dispose();
@@ -41,7 +54,7 @@ namespace jaytwo.DisappearingFiles.Tests
         public void SubDirectories_does_not_exist_after_DisappearingDirectory_is_disposed()
         {
             // arrange
-            var workspace = DisappearingDirectory.Create();
+            var workspace = DisappearingDirectory.CreateInTempPath();
             var subDirectory1 = workspace.CreateNewSubdirectory();
             var subDirectory2 = subDirectory1.CreateSubdirectory("hello");
 
@@ -55,10 +68,10 @@ namespace jaytwo.DisappearingFiles.Tests
         }
 
         [Fact]
-        public void Files_does_not_exist_after_DisappearingDirectory_is_disposed()
+        public void Files_do_not_exist_after_DisappearingDirectory_is_disposed()
         {
             // arrange
-            var workspace = DisappearingDirectory.Create();
+            var workspace = DisappearingDirectory.CreateInTempPath();
             var file = workspace.CreateNewFileWithExtension(".hello");
 
             // act
@@ -75,7 +88,7 @@ namespace jaytwo.DisappearingFiles.Tests
             // arrange
 
             // act
-            using (var workspace = DisappearingDirectory.Create())
+            using (var workspace = DisappearingDirectory.CreateInTempPath())
             {
                 // assert
                 Assert.StartsWith(Path.GetTempPath(), workspace.Path);
@@ -100,7 +113,7 @@ namespace jaytwo.DisappearingFiles.Tests
         public void CreateSubdirectory_creates_directory_within_DisappearingDirectory()
         {
             // arrange
-            using (var workspace = DisappearingDirectory.Create())
+            using (var workspace = DisappearingDirectory.CreateInTempPath())
             {
                 // act
                 var workspaceDirectory = workspace.CreateNewSubdirectory();
@@ -121,7 +134,7 @@ namespace jaytwo.DisappearingFiles.Tests
         public void CreateSubdirectory_creates_file_with_prefix_and_suffix(string prefix, string suffix)
         {
             // arrange
-            using (var workspace = DisappearingDirectory.Create())
+            using (var workspace = DisappearingDirectory.CreateInTempPath())
             {
                 // act
                 var workspaceDirectory = workspace.CreateNewSubdirectory(prefix, suffix);
@@ -144,7 +157,7 @@ namespace jaytwo.DisappearingFiles.Tests
         public void CreateFile_creates_file_within_DisappearingDirectory()
         {
             // arrange
-            using (var workspace = DisappearingDirectory.Create())
+            using (var workspace = DisappearingDirectory.CreateInTempPath())
             {
                 // act
                 var createdFile = workspace.CreateNewFile();
@@ -165,7 +178,7 @@ namespace jaytwo.DisappearingFiles.Tests
         public void CreateFile_creates_file_with_prefix_and_suffix(string prefix, string suffix)
         {
             // arrange
-            using (var workspace = DisappearingDirectory.Create())
+            using (var workspace = DisappearingDirectory.CreateInTempPath())
             {
                 // act
                 var createdFile = workspace.CreateNewFile(prefix, suffix);
@@ -188,7 +201,7 @@ namespace jaytwo.DisappearingFiles.Tests
         public void GetFiles_returns_files_in_DisappearingDirectory()
         {
             // arrange
-            using (var workspace = DisappearingDirectory.Create())
+            using (var workspace = DisappearingDirectory.CreateInTempPath())
             {
                 var file1 = workspace.CreateNewFile();
 
@@ -204,7 +217,7 @@ namespace jaytwo.DisappearingFiles.Tests
         public void GetFiles_with_pattern_returns_files_in_DisappearingDirectory()
         {
             // arrange
-            using (var workspace = DisappearingDirectory.Create())
+            using (var workspace = DisappearingDirectory.CreateInTempPath())
             {
                 var file1 = workspace.CreateNewFile();
 
@@ -220,7 +233,7 @@ namespace jaytwo.DisappearingFiles.Tests
         public void GetFiles_with_pattern_and_SearchOption_returns_files_in_DisappearingDirectory()
         {
             // arrange
-            using (var workspace = DisappearingDirectory.Create())
+            using (var workspace = DisappearingDirectory.CreateInTempPath())
             {
                 var file1 = workspace.CreateNewFile();
 
@@ -236,7 +249,7 @@ namespace jaytwo.DisappearingFiles.Tests
         public void GetDirectories_returns_directories_in_DisappearingDirectory()
         {
             // arrange
-            using (var workspace = DisappearingDirectory.Create())
+            using (var workspace = DisappearingDirectory.CreateInTempPath())
             {
                 var directory1 = workspace.CreateNewSubdirectory();
 
@@ -252,7 +265,7 @@ namespace jaytwo.DisappearingFiles.Tests
         public void GetDirectories_with_pattern_returns_directories_in_DisappearingDirectory()
         {
             // arrange
-            using (var workspace = DisappearingDirectory.Create())
+            using (var workspace = DisappearingDirectory.CreateInTempPath())
             {
                 var directory1 = workspace.CreateNewSubdirectory();
 
@@ -268,7 +281,7 @@ namespace jaytwo.DisappearingFiles.Tests
         public void GetDirectories_with_pattern_and_SearchOption_returns_directories_in_DisappearingDirectory()
         {
             // arrange
-            using (var workspace = DisappearingDirectory.Create())
+            using (var workspace = DisappearingDirectory.CreateInTempPath())
             {
                 var directory1 = workspace.CreateNewSubdirectory();
 
@@ -288,7 +301,7 @@ namespace jaytwo.DisappearingFiles.Tests
             var contentBytes = Encoding.UTF8.GetBytes(contentText);
 
             using (var contentStream = new MemoryStream(contentBytes))
-            using (var workspace = DisappearingDirectory.Create())
+            using (var workspace = DisappearingDirectory.CreateInTempPath())
             {
                 // act
                 var file1 = await workspace.WriteToNewFileAsync(contentStream);
@@ -308,7 +321,7 @@ namespace jaytwo.DisappearingFiles.Tests
             var contentBytes = Encoding.UTF8.GetBytes(contentText);
 
             using (var contentStream = new MemoryStream(contentBytes))
-            using (var workspace = DisappearingDirectory.Create())
+            using (var workspace = DisappearingDirectory.CreateInTempPath())
             {
                 // act
                 var file1 = await workspace.WriteToNewFileAsync(contentStream, fileName);
@@ -330,7 +343,7 @@ namespace jaytwo.DisappearingFiles.Tests
             var contentBytes = Encoding.UTF8.GetBytes(contentText);
 
             using (var contentStream = new MemoryStream(contentBytes))
-            using (var workspace = DisappearingDirectory.Create())
+            using (var workspace = DisappearingDirectory.CreateInTempPath())
             {
                 // act
                 var file1 = await workspace.WriteToNewFileAsync(contentStream, prefix, suffix);
@@ -352,7 +365,7 @@ namespace jaytwo.DisappearingFiles.Tests
             var contentBytes = Encoding.UTF8.GetBytes(contentText);
 
             using (var contentStream = new MemoryStream(contentBytes))
-            using (var workspace = DisappearingDirectory.Create())
+            using (var workspace = DisappearingDirectory.CreateInTempPath())
             {
                 // act
                 var file1 = await workspace.WriteToNewFileWithExtensionAsync(contentStream, fileExtension);
@@ -371,7 +384,7 @@ namespace jaytwo.DisappearingFiles.Tests
             var contentText = "Hello World";
             var contentBytes = Encoding.UTF8.GetBytes(contentText);
 
-            using (var workspace = DisappearingDirectory.Create())
+            using (var workspace = DisappearingDirectory.CreateInTempPath())
             {
                 // act
                 var file1 = await workspace.WriteToNewFileAsync(contentBytes);
@@ -390,7 +403,7 @@ namespace jaytwo.DisappearingFiles.Tests
             var contentText = "Hello World";
             var contentBytes = Encoding.UTF8.GetBytes(contentText);
 
-            using (var workspace = DisappearingDirectory.Create())
+            using (var workspace = DisappearingDirectory.CreateInTempPath())
             {
                 // act
                 var file1 = await workspace.WriteToNewFileAsync(contentBytes, fileName);
@@ -411,7 +424,7 @@ namespace jaytwo.DisappearingFiles.Tests
             var contentText = "Hello World";
             var contentBytes = Encoding.UTF8.GetBytes(contentText);
 
-            using (var workspace = DisappearingDirectory.Create())
+            using (var workspace = DisappearingDirectory.CreateInTempPath())
             {
                 // act
                 var file1 = await workspace.WriteToNewFileAsync(contentBytes, prefix, suffix);
@@ -432,7 +445,7 @@ namespace jaytwo.DisappearingFiles.Tests
             var contentText = "Hello World";
             var contentBytes = Encoding.UTF8.GetBytes(contentText);
 
-            using (var workspace = DisappearingDirectory.Create())
+            using (var workspace = DisappearingDirectory.CreateInTempPath())
             {
                 // act
                 var file1 = await workspace.WriteToNewFileWithExtensionAsync(contentBytes, fileExtension);
@@ -450,7 +463,7 @@ namespace jaytwo.DisappearingFiles.Tests
             // arrange
             var contentText = "Hello World";
 
-            using (var workspace = DisappearingDirectory.Create())
+            using (var workspace = DisappearingDirectory.CreateInTempPath())
             {
                 // act
                 var file1 = await workspace.WriteToNewFileAsync(contentText);
@@ -468,7 +481,7 @@ namespace jaytwo.DisappearingFiles.Tests
             var fileName = "helloWorld.txt";
             var contentText = "Hello World";
 
-            using (var workspace = DisappearingDirectory.Create())
+            using (var workspace = DisappearingDirectory.CreateInTempPath())
             {
                 // act
                 var file1 = await workspace.WriteToNewFileAsync(contentText, fileName);
@@ -488,7 +501,7 @@ namespace jaytwo.DisappearingFiles.Tests
             var suffix = "-xyz";
             var contentText = "Hello World";
 
-            using (var workspace = DisappearingDirectory.Create())
+            using (var workspace = DisappearingDirectory.CreateInTempPath())
             {
                 // act
                 var file1 = await workspace.WriteToNewFileAsync(contentText, prefix, suffix);
@@ -508,7 +521,7 @@ namespace jaytwo.DisappearingFiles.Tests
             var fileExtension = ".txt";
             var contentText = "Hello World";
 
-            using (var workspace = DisappearingDirectory.Create())
+            using (var workspace = DisappearingDirectory.CreateInTempPath())
             {
                 // act
                 var file1 = await workspace.WriteToNewFileWithExtensionAsync(contentText, fileExtension);
