@@ -443,5 +443,81 @@ namespace jaytwo.DisappearingFiles.Tests
                 Assert.Equal(contentText, File.ReadAllText(file1.FullName));
             }
         }
+
+        [Fact]
+        public async Task WriteToNewFileAsync_with_string_writes_expected_content()
+        {
+            // arrange
+            var contentText = "Hello World";
+
+            using (var workspace = DisappearingDirectory.Create())
+            {
+                // act
+                var file1 = await workspace.WriteToNewFileAsync(contentText);
+
+                // assert
+                Assert.True(File.Exists(file1.FullName));
+                Assert.Equal(contentText, File.ReadAllText(file1.FullName));
+            }
+        }
+
+        [Fact]
+        public async Task WriteToNewFileAsync_with_string_and_file_name_writes_expected_content()
+        {
+            // arrange
+            var fileName = "helloWorld.txt";
+            var contentText = "Hello World";
+
+            using (var workspace = DisappearingDirectory.Create())
+            {
+                // act
+                var file1 = await workspace.WriteToNewFileAsync(contentText, fileName);
+
+                // assert
+                Assert.True(File.Exists(file1.FullName));
+                Assert.Equal(fileName, file1.Name);
+                Assert.Equal(contentText, File.ReadAllText(file1.FullName));
+            }
+        }
+
+        [Fact]
+        public async Task WriteToNewFileAsync_with_string_and_prefix_and_suffix_writes_expected_content()
+        {
+            // arrange
+            var prefix = "abc-";
+            var suffix = "-xyz";
+            var contentText = "Hello World";
+
+            using (var workspace = DisappearingDirectory.Create())
+            {
+                // act
+                var file1 = await workspace.WriteToNewFileAsync(contentText, prefix, suffix);
+
+                // assert
+                Assert.True(File.Exists(file1.FullName));
+                Assert.StartsWith(prefix, file1.Name);
+                Assert.EndsWith(suffix, file1.Name);
+                Assert.Equal(contentText, File.ReadAllText(file1.FullName));
+            }
+        }
+
+        [Fact]
+        public async Task WriteToNewFileWithExtensionAsync_with_string_writes_expected_content()
+        {
+            // arrange
+            var fileExtension = ".txt";
+            var contentText = "Hello World";
+
+            using (var workspace = DisappearingDirectory.Create())
+            {
+                // act
+                var file1 = await workspace.WriteToNewFileWithExtensionAsync(contentText, fileExtension);
+
+                // assert
+                Assert.True(File.Exists(file1.FullName));
+                Assert.Equal(fileExtension, file1.Extension);
+                Assert.Equal(contentText, File.ReadAllText(file1.FullName));
+            }
+        }
     }
 }

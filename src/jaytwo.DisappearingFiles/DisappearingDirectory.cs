@@ -70,6 +70,18 @@ namespace jaytwo.DisappearingFiles
         public Task<FileInfo> WriteToNewFileWithExtensionAsync(byte[] bytes, string extension)
             => WriteToNewFileAsync(bytes, () => CreateNewFileWithExtension(extension));
 
+        public Task<FileInfo> WriteToNewFileAsync(string text)
+            => WriteToNewFileAsync(text, () => CreateNewFile());
+
+        public Task<FileInfo> WriteToNewFileAsync(string text, string name)
+            => WriteToNewFileAsync(text, () => CreateNewFile(name));
+
+        public Task<FileInfo> WriteToNewFileAsync(string text, string prefix, string suffix)
+            => WriteToNewFileAsync(text, () => CreateNewFile(prefix, suffix));
+
+        public Task<FileInfo> WriteToNewFileWithExtensionAsync(string text, string extension)
+            => WriteToNewFileAsync(text, () => CreateNewFileWithExtension(extension));
+
         public DirectoryInfo CreateNewSubdirectory()
             => CreateNewSubdirectory("dir.", null);
 
@@ -159,6 +171,19 @@ namespace jaytwo.DisappearingFiles
             using (var fileStream = newFile.Open(FileMode.Create))
             {
                 await fileStream.WriteAsync(bytes, 0, bytes.Length);
+            }
+
+            return newFile;
+        }
+
+        private async Task<FileInfo> WriteToNewFileAsync(string text, Func<FileInfo> createFileDelegate)
+        {
+            var newFile = createFileDelegate.Invoke();
+
+            using (var fileStream = newFile.Open(FileMode.Create))
+            using (var writer = new StreamWriter(fileStream))
+            {
+                await writer.WriteAsync(text);
             }
 
             return newFile;
