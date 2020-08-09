@@ -46,7 +46,7 @@ PM> Install-Package jaytwo.DisappearingFiles
 
 ## Usage
 
-```
+```csharp
 // contrived example returning a temp file that needs to be cleaned up after when the job is done
 [HttpGet]
 public async Task<IActionResult> GetReport([FromForm] ReportRequest request)
@@ -66,8 +66,8 @@ using (var workspace = DisappearingDirectory.CreateInTempPath())
 ```
 
 > Note: If you end up using them together (e.g. use the temp workspace to generate the a temp file to stream back
-        to the user), be sure to move the file of interest to a location outside of the `DisappearingDirectory`'s 
-        path (like the system temp path).  That way, the open file stream won't gum up the works trying to delete
+        to the user), be sure to first move the file of interest to a location outside of the `DisappearingDirectory`'s 
+        path (like maybe the regular system temp path).  That way, the open file stream won't gum up the works trying to delete
         the DisappearingDirectory.
 
 ---
