@@ -532,5 +532,43 @@ namespace jaytwo.DisappearingFiles.Tests
                 Assert.Equal(contentText, File.ReadAllText(file1.FullName));
             }
         }
+
+        [Theory]
+        [InlineData("a", "{0}a")]
+        [InlineData("/a", "{0}a")]
+        [InlineData("\\a", "{0}a")]
+        [InlineData("a/b/c", "{0}a{0}b{0}c")]
+        [InlineData("/a/b/c", "{0}a{0}b{0}c")]
+        [InlineData("a\\b\\c", "{0}a{0}b{0}c")]
+        [InlineData("\\a\\b\\c", "{0}a{0}b{0}c")]
+        [InlineData("/a\\b/c", "{0}a{0}b{0}c")]
+        public void GetFullPath_returns_normalized_paths(string path, string expectedEndingFormat)
+        {
+            var expectedEnding = string.Format(expectedEndingFormat, Path.DirectorySeparatorChar);
+
+            // arrange
+            using (var workspace = DisappearingDirectory.CreateInTempPath())
+            {
+                // act
+                var fullPath = workspace.GetFullPath(path);
+
+                // assert
+                Assert.EndsWith(expectedEnding, fullPath);
+            }
+        }
+
+        [Fact]
+        public void GetDirectoryInfo_returns_expected_path()
+        {
+            // arrange
+            using (var workspace = DisappearingDirectory.CreateInTempPath())
+            {
+                // act
+                var directoryInfo = workspace.GetDirectoryInfo();
+
+                // assert
+                Assert.Equal(workspace.Path, directoryInfo.FullName);
+            }
+        }
     }
 }

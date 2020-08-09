@@ -53,7 +53,7 @@ namespace jaytwo.DisappearingFiles
             => CreateNewFileWithExtension(".tmp");
 
         public FileInfo CreateNewFile(string name)
-            => FileGenerator.CreateNewFile(System.IO.Path.Combine(Path, name));
+            => FileGenerator.CreateNewFile(GetFullPath(name));
 
         public FileInfo CreateNewFile(string prefix, string suffix)
             => FileGenerator.CreateNewFile(() => GenerateRandomName(prefix, suffix));
@@ -101,7 +101,7 @@ namespace jaytwo.DisappearingFiles
             => CreateNewSubdirectory("dir.", null);
 
         public DirectoryInfo CreateNewSubdirectory(string name)
-            => DirectoryGenerator.CreateNewDirectory(System.IO.Path.Combine(Path, name));
+            => DirectoryGenerator.CreateNewDirectory(GetFullPath(name));
 
         public DirectoryInfo CreateNewSubdirectory(string prefix, string suffix)
             => DirectoryGenerator.CreateNewDirectory(() => GenerateRandomName(prefix, suffix));
@@ -109,7 +109,11 @@ namespace jaytwo.DisappearingFiles
         public DirectoryInfo CreateSubdirectoryWithPrefix(string prefix)
             => CreateNewSubdirectory(prefix, null);
 
-        public string GetFullPath(string path) => System.IO.Path.Combine(Path, path);
+        public DirectoryInfo GetDirectoryInfo()
+            => new DirectoryInfo(Path);
+
+        public string GetFullPath(string path)
+            => System.IO.Path.GetFullPath(System.IO.Path.Combine(Path, path));
 
         public FileInfo[] GetFiles() =>
             new DirectoryInfo(Path).GetFiles();
@@ -140,7 +144,7 @@ namespace jaytwo.DisappearingFiles
         }
 
         public string GenerateRandomName(string prefix, string suffix)
-            => System.IO.Path.Combine(Path, NameGenerator.GenerateRandomString(prefix, suffix));
+            => GetFullPath(NameGenerator.GenerateRandomString(prefix, suffix));
 
         public void Dispose() => Dispose(true);
 
