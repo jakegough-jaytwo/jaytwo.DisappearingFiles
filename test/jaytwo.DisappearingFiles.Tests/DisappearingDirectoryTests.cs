@@ -545,6 +545,7 @@ namespace jaytwo.DisappearingFiles.Tests
         public void GetFullPath_returns_normalized_paths(string path, string expectedEndingFormat)
         {
             var expectedEnding = string.Format(expectedEndingFormat, Path.DirectorySeparatorChar);
+            var altExpectedEnding = string.Format(expectedEndingFormat, Path.AltDirectorySeparatorChar);
 
             // arrange
             using (var workspace = DisappearingDirectory.CreateInTempPath())
@@ -553,7 +554,7 @@ namespace jaytwo.DisappearingFiles.Tests
                 var fullPath = workspace.GetFullPath(path);
 
                 // assert
-                Assert.EndsWith(expectedEnding, fullPath);
+                Assert.True(fullPath.EndsWith(expectedEnding) || fullPath.EndsWith(altExpectedEnding));
             }
         }
 
