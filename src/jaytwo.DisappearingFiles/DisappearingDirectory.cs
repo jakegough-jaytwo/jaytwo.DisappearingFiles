@@ -113,7 +113,7 @@ namespace jaytwo.DisappearingFiles
             => new DirectoryInfo(Path);
 
         public string GetFullPath(string path)
-            => System.IO.Path.GetFullPath(System.IO.Path.Combine(Path, path));
+            => System.IO.Path.Combine(Path, path).Replace('/', System.IO.Path.DirectorySeparatorChar).Replace('\\', System.IO.Path.DirectorySeparatorChar);
 
         public FileInfo[] GetFiles() =>
             new DirectoryInfo(Path).GetFiles();
