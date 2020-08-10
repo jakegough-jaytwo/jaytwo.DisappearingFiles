@@ -544,8 +544,8 @@ namespace jaytwo.DisappearingFiles.Tests
         [InlineData("/a\\b/c", "{0}a{0}b{0}c")]
         public void GetFullPath_returns_normalized_paths(string path, string expectedEndingFormat)
         {
-            var expectedEnding = string.Format(expectedEndingFormat, Path.DirectorySeparatorChar);
-            var altExpectedEnding = string.Format(expectedEndingFormat, Path.AltDirectorySeparatorChar);
+            var expectedEnding = string.Format(expectedEndingFormat, "/");
+            var altExpectedEnding = string.Format(expectedEndingFormat, "\\");
 
             // arrange
             using (var workspace = DisappearingDirectory.CreateInTempPath())
