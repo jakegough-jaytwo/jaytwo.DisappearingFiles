@@ -180,6 +180,8 @@ namespace jaytwo.DisappearingFiles
                 await stream.CopyToAsync(fileStream);
             }
 
+            newFile.Refresh();
+
             return newFile;
         }
 
@@ -191,6 +193,8 @@ namespace jaytwo.DisappearingFiles
             {
                 await fileStream.WriteAsync(bytes, 0, bytes.Length);
             }
+
+            newFile.Refresh();
 
             return newFile;
         }
@@ -204,6 +208,8 @@ namespace jaytwo.DisappearingFiles
             {
                 await writer.WriteAsync(text);
             }
+
+            newFile.Refresh();
 
             return newFile;
         }
