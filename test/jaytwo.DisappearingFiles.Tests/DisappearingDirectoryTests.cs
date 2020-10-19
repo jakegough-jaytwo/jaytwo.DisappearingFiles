@@ -308,6 +308,7 @@ namespace jaytwo.DisappearingFiles.Tests
 
                 // assert
                 Assert.True(File.Exists(file1.FullName));
+                Assert.NotEqual(0, file1.Length);
                 Assert.Equal(contentText, File.ReadAllText(file1.FullName));
             }
         }
@@ -329,6 +330,7 @@ namespace jaytwo.DisappearingFiles.Tests
                 // assert
                 Assert.True(File.Exists(file1.FullName));
                 Assert.Equal(fileName, file1.Name);
+                Assert.NotEqual(0, file1.Length);
                 Assert.Equal(contentText, File.ReadAllText(file1.FullName));
             }
         }
@@ -352,6 +354,7 @@ namespace jaytwo.DisappearingFiles.Tests
                 Assert.True(File.Exists(file1.FullName));
                 Assert.StartsWith(prefix, file1.Name);
                 Assert.EndsWith(suffix, file1.Name);
+                Assert.NotEqual(0, file1.Length);
                 Assert.Equal(contentText, File.ReadAllText(file1.FullName));
             }
         }
@@ -373,6 +376,7 @@ namespace jaytwo.DisappearingFiles.Tests
                 // assert
                 Assert.True(File.Exists(file1.FullName));
                 Assert.Equal(fileExtension, file1.Extension);
+                Assert.NotEqual(0, file1.Length);
                 Assert.Equal(contentText, File.ReadAllText(file1.FullName));
             }
         }
@@ -391,6 +395,7 @@ namespace jaytwo.DisappearingFiles.Tests
 
                 // assert
                 Assert.True(File.Exists(file1.FullName));
+                Assert.NotEqual(0, file1.Length);
                 Assert.Equal(contentText, File.ReadAllText(file1.FullName));
             }
         }
@@ -411,6 +416,7 @@ namespace jaytwo.DisappearingFiles.Tests
                 // assert
                 Assert.True(File.Exists(file1.FullName));
                 Assert.Equal(fileName, file1.Name);
+                Assert.NotEqual(0, file1.Length);
                 Assert.Equal(contentText, File.ReadAllText(file1.FullName));
             }
         }
@@ -433,6 +439,7 @@ namespace jaytwo.DisappearingFiles.Tests
                 Assert.True(File.Exists(file1.FullName));
                 Assert.StartsWith(prefix, file1.Name);
                 Assert.EndsWith(suffix, file1.Name);
+                Assert.NotEqual(0, file1.Length);
                 Assert.Equal(contentText, File.ReadAllText(file1.FullName));
             }
         }
@@ -453,6 +460,7 @@ namespace jaytwo.DisappearingFiles.Tests
                 // assert
                 Assert.True(File.Exists(file1.FullName));
                 Assert.Equal(fileExtension, file1.Extension);
+                Assert.NotEqual(0, file1.Length);
                 Assert.Equal(contentText, File.ReadAllText(file1.FullName));
             }
         }
@@ -470,6 +478,7 @@ namespace jaytwo.DisappearingFiles.Tests
 
                 // assert
                 Assert.True(File.Exists(file1.FullName));
+                Assert.NotEqual(0, file1.Length);
                 Assert.Equal(contentText, File.ReadAllText(file1.FullName));
             }
         }
@@ -489,6 +498,7 @@ namespace jaytwo.DisappearingFiles.Tests
                 // assert
                 Assert.True(File.Exists(file1.FullName));
                 Assert.Equal(fileName, file1.Name);
+                Assert.NotEqual(0, file1.Length);
                 Assert.Equal(contentText, File.ReadAllText(file1.FullName));
             }
         }
@@ -510,6 +520,7 @@ namespace jaytwo.DisappearingFiles.Tests
                 Assert.True(File.Exists(file1.FullName));
                 Assert.StartsWith(prefix, file1.Name);
                 Assert.EndsWith(suffix, file1.Name);
+                Assert.NotEqual(0, file1.Length);
                 Assert.Equal(contentText, File.ReadAllText(file1.FullName));
             }
         }
@@ -529,6 +540,7 @@ namespace jaytwo.DisappearingFiles.Tests
                 // assert
                 Assert.True(File.Exists(file1.FullName));
                 Assert.Equal(fileExtension, file1.Extension);
+                Assert.NotEqual(0, file1.Length);
                 Assert.Equal(contentText, File.ReadAllText(file1.FullName));
             }
         }
